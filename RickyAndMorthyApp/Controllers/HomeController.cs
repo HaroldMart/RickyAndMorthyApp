@@ -22,11 +22,12 @@ namespace RickyAndMorthyApp.Controllers
         public async Task<IActionResult> Index()
         {
             Characters character = new();
-            Character info = await character.getCharacter();
+            //Character info = await character.getCharacter();
+            List<Character> characterList = await character.getAllCharacters();
+           
+            //await character.filterCharacters("name=rick&status=alive");
 
-            ViewBag.character = info.name;
-
-            return View();
+            return View(characterList);
         }
 
         public IActionResult Privacy()
