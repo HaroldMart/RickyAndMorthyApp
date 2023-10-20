@@ -1,0 +1,66 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;400;600;700&family=Open+Sans:wght@300&family=Roboto:wght@100;300;400;500;600;800&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  scroll-behavior: smooth;
+  overflow-x: hidden !important;
+}
+
+body {
+  background-color: red;
+  font-family: "Inter", sans-serif;
+  width: 100%;
+  font-size: 17px;
+  padding: 3rem;
+}
+
+.characters {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.characters .character {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0;
+  flex-wrap: wrap;
+  transition: all 500ms;
+}
+.characters .character:hover {
+  transform: translate(5px);
+}
+.characters .character .image {
+  min-width: 90px;
+  width: 240px;
+}
+.characters .character .image img {
+  width: 100%;
+  border-radius: 15px;
+}
+.characters .character-details {
+  position: absolute;
+  top: 200px;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap;
+  z-index: 3;
+  background-color: blue;
+}
+.characters .character-details .content .info {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 10px;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}

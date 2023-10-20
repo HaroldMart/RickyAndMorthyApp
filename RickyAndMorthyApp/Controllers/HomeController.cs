@@ -1,12 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Repository.Data;
-using Repository.Models;
-using RickyAndMorthyApp.Models;
-using System;
-using System.Diagnostics;
-using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
-using static System.Net.WebRequestMethods;
 
 namespace RickyAndMorthyApp.Controllers
 {
@@ -19,15 +11,9 @@ namespace RickyAndMorthyApp.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            Characters character = new();
-            //Character info = await character.getCharacter();
-            List<Character> characterList = await character.getAllCharacters();
-           
-            //await character.filterCharacters("name=rick&status=alive");
-
-            return View(characterList);
+            return View();
         }
 
         public IActionResult Privacy()

@@ -1,12 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Services;
+using Application.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Repository.Data;
+using Repository.Models;
 
 namespace RickyAndMorthyApp.Controllers
 {
     public class CharacterController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            CharacterServices character = new();
+            //Character info = await character.getCharacter();
+            List<CharacterViewModel> characterList = await character.getAllCharacters();
+
+            //await character.filterCharacters("name=rick&status=alive");
+
+            return View(characterList);
         }
     }
 }

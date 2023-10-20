@@ -1,0 +1,15 @@
+﻿<div class="container-fluid">
+    <div class="row">
+        @foreach (var location in Model)
+        {
+            <div class="card" style="width: 14rem;">
+                <div class="card-body">
+                    <h4>@location.name</h4>
+                    <p>@location.type</p>
+                    <p>@location.dimension</p>
+                    <p>@location.url</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

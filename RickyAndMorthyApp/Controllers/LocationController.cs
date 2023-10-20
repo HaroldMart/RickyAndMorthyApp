@@ -1,12 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Repository.Data;
+using Repository.Models;
 
 namespace RickyAndMorthyApp.Controllers
 {
     public class LocationController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            LocationRepository location = new LocationRepository();
+            List<Location> locations = await location.getAll();
+
+            return View(locations);
         }
     }
 }

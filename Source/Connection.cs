@@ -18,18 +18,11 @@ namespace Repository
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
-
-            //UriBuilder builder = new UriBuilder(_httpClient.BaseAddress);
-            //builder.Path += "/character";
         }
-
         public static Connection Instance
         {
             get {
-                if (instance == null)
-                {
-                    instance = new Connection();
-                }
+                instance ??= new Connection();
                  
                 return instance;
             }

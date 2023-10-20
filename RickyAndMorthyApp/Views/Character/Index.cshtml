@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Character";
+}
+
+<div class="characters">
+    <div class="character-details">
+            <div class="image">
+                <img src="@Model[0].image" alt="">
+            </div>
+            <div class="content">
+                <div class="title">
+                <h4>@Model[0].name</h4>
+                </div>
+                <ul class="info">
+                <li>@Model[0].status</li>
+                <li>@Model[0].gender</li>
+                <li>@Model[0].species</li>
+                <li>@Model[0].type</li>
+                <li>@Model[0].created</li>
+                <li>@Model[0].origin</li>
+                <li>@Model[0].location</li>
+                </ul>
+            </div>
+    </div>
+    @foreach (var character in Model)
+    {
+        <div class="character" name="@character.name" status="@character.status" gender="@character.gender"
+             species="@character.species" type="@character.type" created="@character.created" 
+             origin="@character.origin" location="@character.location">
+            <div class="image">
+                <img src="@character.image" alt="">
+            </div>
+            <div class="content">
+                <h4>@character.name</h4>
+            </div>
+        </div> 
+    }
+</div>

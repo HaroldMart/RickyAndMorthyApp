@@ -1,20 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="container-fluid">
-    <div class="row">
-        @foreach (var character in Model)
-        {
-            <div class="card" style="width: 14rem;">
-                <img src="@character.image" class="card-img-top" alt="">
-                <div class="card-body">
-                    <h4>@character.name</h4>
-                    <p>@character.gender</p>
-                    <p>@character.status</p>
-                    <p>@character.species</p>
-                </div>
-            </div>
-        }
-    </div>
+<div class="home">
+      <p>Home page</p>
+     
 </div>
