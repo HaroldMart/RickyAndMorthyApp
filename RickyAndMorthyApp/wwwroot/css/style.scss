@@ -10,7 +10,7 @@ html, body {
 }
 
 body {
-    background-color: red;
+    background-color: #EEEEEE;
     font-family: 'Inter', sans-serif;
     width: 100%;
     font-size: 17px;
@@ -65,26 +65,28 @@ body {
         }
     }
 
-
-    .character-details {
-        position: absolute;
+    .container-details-character {
+        position: fixed;
         top: 200px;
-        padding: 20px;
-        border-radius: 20px;
-        @include flex($gap: 50px);
         z-index: 3;
+        border-radius: 20px;
+        padding: 20px;
         background-color: blue;
+        display: none;
 
-        .content {
-            
+        .character-details {
+            @include flex($gap: 50px);
 
-            .info {
-                @include flex($direction: column, $gap: 10px);
-                list-style: none;
-                padding: 0;
 
-                li {
+            .content {
 
+                .info {
+                    @include flex($direction: column, $gap: 10px);
+                    list-style: none;
+                    padding: 0;
+
+                    li {
+                    }
                 }
             }
         }

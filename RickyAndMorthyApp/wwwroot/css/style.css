@@ -9,7 +9,7 @@ html, body {
 }
 
 body {
-  background-color: red;
+  background-color: #EEEEEE;
   font-family: "Inter", sans-serif;
   width: 100%;
   font-size: 17px;
@@ -42,20 +42,23 @@ body {
   width: 100%;
   border-radius: 15px;
 }
-.characters .character-details {
-  position: absolute;
+.characters .container-details-character {
+  position: fixed;
   top: 200px;
-  padding: 20px;
+  z-index: 3;
   border-radius: 20px;
+  padding: 20px;
+  background-color: blue;
+  display: none;
+}
+.characters .container-details-character .character-details {
   display: flex;
   justify-content: flex-start;
   flex-direction: row;
   gap: 50px;
   flex-wrap: wrap;
-  z-index: 3;
-  background-color: blue;
 }
-.characters .character-details .content .info {
+.characters .container-details-character .character-details .content .info {
   display: flex;
   justify-content: flex-start;
   flex-direction: column;

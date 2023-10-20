@@ -11,7 +11,7 @@ namespace RickyAndMorthyApp.Controllers
         public async Task<IActionResult> IndexAsync()
         {
             CharacterServices character = new();
-            //Character info = await character.getCharacter();
+        
             List<CharacterViewModel> characterList = await character.getAllCharacters();
 
             //await character.filterCharacters("name=rick&status=alive");
