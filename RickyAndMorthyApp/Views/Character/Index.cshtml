@@ -1,21 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Character";
 }
+@model List<Application.ViewModels.CharacterViewModel>;
 
 <div class="characters">
-    <div class="container-details-character"></div>
-  
-    @foreach (var character in Model)
-    {
-        <div class="character" name="@character.name" image="@character.image" status="@character.status" gender="@character.gender"
-             species="@character.species" type="@character.type" created="@character.created" 
-             origin="@character.origin" location="@character.location">
-            <div class="image">
-                <img src="@character.image" alt="">
-            </div>
-            <div class="content">
-                <h4>@character.name</h4>
-            </div>
-        </div> 
+
+    @{
+        ViewData["classHeader"] = "characters-header";
+        ViewData["title"] = "Characters";
+        ViewData["placeholder"] = "Example.Ricky";
+        ViewData["controller"] = "Character";
     }
+    @Html.Partial("~/Views/Shared/PartialView/_Header.cshtml")
+
+    @Html.Partial("~/Views/Shared/PartialView/_ListCharacters.cshtml", Model)
 </div>

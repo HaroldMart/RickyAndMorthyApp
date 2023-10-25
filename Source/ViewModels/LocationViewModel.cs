@@ -12,6 +12,5 @@ namespace Application.ViewModels
         public string name { get; set; }
         public string type { get; set; }
         public string dimension { get; set; }
-        public string created { get; set; }
     }
 }

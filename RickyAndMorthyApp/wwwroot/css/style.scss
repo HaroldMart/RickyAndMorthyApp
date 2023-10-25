@@ -1,20 +1,8 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;400;600;700&family=Open+Sans:wght@300&family=Roboto:wght@100;300;400;500;600;800&display=swap');
 
+$colors: ( "gray": #EEEEEE, "blue": #072541, "green": #186F65, );
 * {
     box-sizing: border-box;
-}
-
-html, body {
-    scroll-behavior: smooth;
-    overflow-x: hidden !important;
-}
-
-body {
-    background-color: #EEEEEE;
-    font-family: 'Inter', sans-serif;
-    width: 100%;
-    font-size: 17px;
-    padding: 3rem;
 }
 
 @mixin flex($justify: flex-start, $direction: row, $gap: 0, $wrap: no-wrap) {
@@ -22,41 +10,96 @@ body {
     justify-content: $justify;
     flex-direction: $direction;
     gap: $gap;
-    flex-wrap: wrap;
+    flex-wrap: $wrap;
 }
 
 @mixin large-screen {
-    @content;
+    @media (max-width: 900px) {
+        @content;
+    }
 }
 
 @mixin mid-screen {
-    @content;
+    @media (max-width: 750px) {
+        @content;
+    }
 }
 
 @mixin small-screen {
-    @content;
+    @media (max-width: 450px) {
+        @content;
+    }
 }
 
-// Home page
+@mixin custom-screen ($screen) {
+    @media (max-width: $screen) {
+        @content;
+    }
+}
 
 
-// Character page
+html, body {
+    scroll-behavior: smooth;
+    overflow-x: hidden !important;
+}
 
-.characters {
-    @include flex($justify: center, $gap: 20px, $wrap: no-wrap);
+body {
+    background-color: map-get($colors, "blue");
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    font-size: 15px;
+    color: white;
+
+    @include mid-screen {
+        font-size: 14px;
+    }
+
+    @include small-screen {
+        font-size: 12px;
+    }
+}
+
+.form-search {
+    @include flex($justify: flex-end, $gap: 10px, $wrap: wrap);
+
+    input {
+        padding: 7px 9px;
+        border-radius: 5px;
+        border: none;
+    }
+
+    .search-input {
+    }
+
+    .filter-button {
+        background-color: map-get($colors, "green");
+        color: white;
+    }
+}
+
+
+h2, h3, h4 {
+    margin: 0;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.container-characters {
+    @include flex($justify: center, $gap: 20px, $wrap: wrap);
 
     .character {
-        @include flex($justify: center, $direction: column);
+        @include flex($justify: center, $direction: column, $gap: 10px);
         transition: all 500ms;
+        max-width: 200px;
 
         &:hover {
             transform: translate(5px);
         }
 
         .image {
-            min-width: 90px;
-            width: 240px;
-
 
             img {
                 width: 100%;
@@ -64,36 +107,318 @@ body {
             }
         }
     }
-
+    
     .container-details-character {
         position: fixed;
         top: 200px;
         z-index: 3;
-        border-radius: 20px;
-        padding: 20px;
-        background-color: blue;
+        border-radius: 16px;
+        background-color: #213555;
         display: none;
+        max-width: 615px;
+
+        @include mid-screen {
+            top: 240px;
+            min-width: auto;
+        }
 
         .character-details {
-            @include flex($gap: 50px);
+
+            .details {
+                @include flex($gap: 50px);
+
+                @include mid-screen {
+                    flex-direction: column;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    justify-content: center;
+                }
 
 
-            .content {
+                .image {
 
-                .info {
-                    @include flex($direction: column, $gap: 10px);
-                    list-style: none;
-                    padding: 0;
-
-                    li {
+                    @include mid-screen {
+                        width: 250px;
                     }
+
+                    img {
+                        border-bottom-left-radius: 16px;
+                        border-top-left-radius: 16px;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+
+
+                .content {
+                    position: relative;
+                    width: 50%;
+
+                    @include mid-screen {
+                        padding: 0 10px 10px 10px;
+                        width: auto;
+                    }
+
+                    .header {
+                        @include flex($justify: space-between);
+                        margin: 8px 10px 0 0;
+                        align-items: center;
+
+                        @include mid-screen {
+                            margin: 0;
+                        }
+
+                        .leave-character {
+                            padding: 8px 17px;
+                            border: none;
+                            background-color: green;
+                            border-radius: 10px;
+                            color: white;
+                            min-width: 55px;
+                            width: 55px;
+                            margin-left: 20px;
+
+                            img {
+                                width: 100%;
+                            }
+                        }
+                        }
+
+                    .info {
+                        @include flex($direction: column, $gap: 17px);
+                        margin-right: 35px;
+
+                        @include mid-screen {
+                            margin: 0;
+                        }
+                    }
+            }
+        }
+        }
+    }
+}
+
+// Layout
+
+nav {
+    @include flex($justify: space-between);
+    padding: 5px 20px;
+    width: 100%;
+    align-items: center;
+    position: fixed;
+    // backdrop-filter: blur(30px);
+    z-index: 2;
+    background-color: map-get($colors, "blue");
+
+    .logo {
+        width: 50px;
+        transition: all 400ms;
+        position: relative;
+
+        &:hover {
+            transform: scale(0.97);
+        }
+
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .nav-links {
+        @include large-screen {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            margin-left: -100%;
+            display: flex;
+            margin-right: 0;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(52, 52, 52, 0.769);
+            backdrop-filter: blur(60px);
+            transition: all 0.5s ease;
+        }
+
+        ul {
+            list-style: none;
+            @include flex($gap: 25px);
+            padding: 0;
+            align-items: center;
+
+            @include large-screen {
+                flex-direction: column;
+            }
+
+            li {
+                margin: 0 15px;
+
+                @include large-screen {
+                    margin: 17px 0;
+                    font-size: 1.2em;
+                }
+
+                a {
+                    color: white;
+                    text-decoration: none;
+                    transition: all 400ms;
+
+                    &:hover {
+                        font-weight: 700;
+                    }
+                }
+            }
+        }
+    }
+
+    .menu {
+        width: 20px;
+        position: relative;
+        top: 5px;
+        right: 20px;
+        visibility: hidden;
+
+        @include large-screen {
+            visibility: visible;
+        }
+    }
+
+    .mobile-menu {
+        margin-left: 0;
+    }
+}
+
+// Home page
+
+.home {
+    padding: 90px 3rem;
+
+    @include custom-screen (615px) {
+        padding: 90px 2rem;
+    }
+
+    .container {
+        @include flex($justify: center, $direction: column, $gap: 10px);
+
+        .content {
+            display: grid;
+            grid-template-columns: 500px 1fr;
+            gap: 30px;
+            margin: 20px 0 20px 0;
+
+            @include mid-screen {
+                grid-template-columns: 1fr;
+            }
+
+            .image {
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            .info-api {
+                @include flex($justify: center, $gap: 70px, $wrap: wrap);
+                font-size: 18px;
+                align-items: center;
+
+                ul {
+                    @include flex($direction: column, $gap: 10px);
+                    padding: 0;
+                    margin: 0;
                 }
             }
         }
     }
 }
 
+// Character page
+
+.characters {
+        @include flex($direction: column, $gap: 30px);
+        padding: 90px 3rem;
+
+        @include custom-screen (615px) {
+            padding: 90px 2rem;
+        }
+
+        .characters-header {
+            @include flex($justify: space-between, $gap: 20px, $wrap: wrap);
+        }
+    }
+
 // Location page
 
+.locations {
+        @include flex($direction: column, $gap: 30px);
+        padding: 90px 3rem;
+
+        @include custom-screen (615px) {
+            padding: 90px 2rem;
+        }
+
+        .locations-header {
+            @include flex($justify: space-between, $gap: 20px, $wrap: wrap);
+        }
+
+        .container {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+            @include small-screen {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .location {
+                @include flex($justify: center, $direction: column);
+                transition: all 500ms;
+                padding: 10px;
+                box-shadow: 2px 2px 2px 1px #001524;
+                border-radius: 10px;
+
+                &:hover {
+                    transform: translate(5px);
+                }
+            }
+        }
+    }
 
 // Episode page
+
+.episodes {
+        @include flex($direction: column, $gap: 30px);
+        padding: 90px 3rem;
+
+        @include custom-screen (615px) {
+            padding: 90px 2rem;
+        }
+
+        .episodes-header {
+            @include flex($justify: space-between, $gap: 20px, $wrap: wrap);
+        }
+
+        .container {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+            @include small-screen {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .episode {
+                @include flex($justify: center, $direction: column);
+                transition: all 500ms;
+                padding: 10px;
+                box-shadow: 2px 2px 2px 1px #001524;
+                border-radius: 10px;
+
+                &:hover {
+                    transform: translate(5px);
+                }
+            }
+        }
+    }

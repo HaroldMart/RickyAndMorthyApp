@@ -3,14 +3,24 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Ricky_Morthy_App</title>
+    <title>@ViewData["Title"] - Ricky and Morthy</title>
     <link rel="stylesheet" href="/css/normalize.css"/>
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
-
 </head>
 <body>
     <nav>
-
+        <div class="logo">
+            <a asp-controller="Home" asp-action="Index"><img src="~/assets/images/logo.jpg" /></a>
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a asp-controller="Character" asp-action="Index">Characters</a></li>
+                <li><a asp-controller="Location" asp-action="Index">Locations</a></li>
+                <li><a asp-controller="Episode" asp-action="Index">Episodes</a></li>
+            </ul>
+        </div>
+        <img src="~/assets/icons/menu-btn.png" alt="menu" class="menu" />
     </nav>
         @RenderBody()
     <script src="~/js/main.js" asp-append-version="true"></script>

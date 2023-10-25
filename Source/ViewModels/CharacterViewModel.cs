@@ -17,6 +17,5 @@ namespace Application.ViewModels
         public string status { get; set; }
         public string species { get; set; }
         public string location { get; set; }
-        public string created { get; set; }
     }
 }

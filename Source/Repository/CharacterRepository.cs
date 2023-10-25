@@ -8,46 +8,70 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
+using System.Collections;
 
 namespace Repository.Data
 {
     public class CharacterRepository
     {
-        public async Task<List<Character>> getAll()
+        private static readonly  Random random = new();
+        private readonly HttpClient client = Connection.Instance._httpClient;
+
+        public async Task<int[]> getInfo()
         {
-            List<Character> characters = new List<Character>();
+            Uri url = new(client.BaseAddress, $"character");
+
+            HttpResponseMessage response = await client.GetAsync(url);
+
+            var data = await response.Content.ReadFromJsonAsync<Info>();
+
+            JObject json = JObject.Parse(data.info.ToString());
+            int count = int.Parse(json["count"].ToString());
+            int pages = int.Parse(json["pages"].ToString());
+            int[] list = new int[] { count, pages };
+
+            return list;
+        }
+
+        public async Task<List<Character>> getAll(int totalPages)
+        {
+            List<Character> characters = new();
 
             try
             {
-                HttpClient client = Connection.Instance._httpClient;
-
-                Uri url = new(client.BaseAddress, "character");
-
-                HttpResponseMessage response = await client.GetAsync(url);
-
-                var data = await response.Content.ReadFromJsonAsync<Info>();
-
-                if (data != null)
+                for(int i = 1; i <= 3; i++)
                 {
-                    foreach (var item in data.results)
+                    int page = random.Next(1, totalPages);
+                    string query = $"?page={page}";
+
+                    Uri url = new(client.BaseAddress, $"character{query}");
+
+                    HttpResponseMessage response = await client.GetAsync(url);
+
+                    var data = await response.Content.ReadFromJsonAsync<Info>();
+
+                    if (data != null)
                     {
-                        Character character = new Character();
-                        JObject json = JObject.Parse(item.ToString());
+                        foreach (var item in data.results)
+                        {
+                            Character character = new();
+                            JObject json = JObject.Parse(item.ToString());
 
-                        character.id = int.Parse(json["id"].ToString());
-                        character.name = json["name"].ToString();
-                        character.status = json["status"].ToString();
-                        character.species = json["species"].ToString();
-                        character.gender = json["gender"].ToString();
-                        character.type = json["type"].ToString();
-                        character.origin = json["origin"];
-                        character.location = json["location"];
-                        character.image = json["image"].ToString();
-                        character.episode = JsonSerializer.Deserialize<string[]>(json["episode"].ToString());
-                        character.url = json["url"].ToString();
-                        character.created = json["created"].ToString();
+                            character.id = int.Parse(json["id"].ToString());
+                            character.name = json["name"].ToString();
+                            character.status = json["status"].ToString();
+                            character.species = json["species"].ToString();
+                            character.gender = json["gender"].ToString();
+                            character.type = json["type"].ToString();
+                            character.origin = json["origin"];
+                            character.location = json["location"];
+                            character.image = json["image"].ToString();
+                            character.episode = JsonSerializer.Deserialize<string[]>(json["episode"].ToString());
+                            character.url = json["url"].ToString();
+                            character.created = json["created"].ToString();
 
-                        characters.Add(character);
+                            characters.Add(character);
+                        }
                     }
                 }
 
@@ -88,62 +112,57 @@ namespace Repository.Data
         //}
         #endregion
 
-        #region "getMultiple"
+        public async Task<List<Character>> getMultiple(int[] list)
+        {
+            List<Character> characters = new List<Character>();
 
-        //public async Task<List<Character>> getMultiple(string[] list)
-        //{
-        //    List<Character> characters = new List<Character>();
+            string multipleCharacters = "";
+            foreach (var item in list)
+            {
+                multipleCharacters += $"{item},";
+            }
 
-        //    string multipleCharacters = "";
-        //    foreach (string item in list)
-        //    {
-        //        multipleCharacters += $"{item},";
-        //    }
+            try
+            {
+                Uri url = new(client.BaseAddress, $"character/{multipleCharacters}");
 
-        //    try
-        //    {
-        //        HttpClient client = Connection.Instance._httpClient;
+                HttpResponseMessage response = await client.GetAsync(url);
 
-        //        Uri url = new(client.BaseAddress, $"character/{multipleCharacters}");
+                var data = await response.Content.ReadFromJsonAsync<List<object>>();
 
-        //        HttpResponseMessage response = await client.GetAsync(url);
+                if (data != null)
+                {
+                    foreach (var item in data)
+                    {
+                        Character character = new Character();
+                        JObject json = JObject.Parse(item.ToString());
 
-        //        var data = await response.Content.ReadFromJsonAsync<List<object>>();
+                        character.id = int.Parse(json["id"].ToString());
+                        character.name = json["name"].ToString();
+                        character.status = json["status"].ToString();
+                        character.species = json["species"].ToString();
+                        character.gender = json["gender"].ToString();
+                        character.type = json["type"].ToString();
+                        character.origin = json["origin"];
+                        character.location = json["location"];
+                        character.image = json["image"].ToString();
+                        character.episode = JsonSerializer.Deserialize<string[]>(json["episode"].ToString());
+                        character.url = json["url"].ToString();
+                        character.created = json["created"].ToString();
 
-        //        if (data != null)
-        //        {
-        //            foreach (var item in data)
-        //            {
-        //                Character character = new Character();
-        //                JObject json = JObject.Parse(item.ToString());
+                        characters.Add(character);
+                    }
+                }
 
-        //                character.id = int.Parse(json["id"].ToString());
-        //                character.name = json["name"].ToString();
-        //                character.status = json["status"].ToString();
-        //                character.species = json["species"].ToString();
-        //                character.gender = json["gender"].ToString();
-        //                character.type = json["type"].ToString();
-        //                character.origin = json["origin"];
-        //                character.location = json["location"];
-        //                character.image = json["image"].ToString();
-        //                character.episode = JsonSerializer.Deserialize<string[]>(json["episode"].ToString());
-        //                character.url = json["url"].ToString();
-        //                character.created = json["created"].ToString();
+                return characters;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-        //                characters.Add(character);
-        //            }
-        //        }
-
-        //        return characters;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //    }
-
-        //    return characters;
-        //}
-        #endregion
+            return characters;
+        }
 
         public async Task<List<Character>> filter(string query)
         {
@@ -151,8 +170,6 @@ namespace Repository.Data
 
             try
             {
-                HttpClient client = Connection.Instance._httpClient;
-
                 Uri url = new(client.BaseAddress, $"character/?{query}");
 
                 HttpResponseMessage response = await client.GetAsync(url);

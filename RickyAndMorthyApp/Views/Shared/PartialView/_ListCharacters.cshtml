@@ -1,0 +1,21 @@
+﻿@model List<Application.ViewModels.CharacterViewModel>;
+<link rel="stylesheet" href="~/css/style.css"/>
+
+<div class="container-characters">
+    <div class="container-details-character"></div>
+
+    @foreach (var character in Model)
+    {
+        <div class="character" name="@character.name" image="@character.image" status="@character.status" gender="@character.gender"
+             species="@character.species" type="@character.type"
+             origin="@character.origin" location="@character.location">
+            <div class="image">
+                <img src="@character.image" alt="">
+            </div>
+            <div class="content">
+                <h4>@character.name</h4>
+            </div>
+        </div>
+    }
+</div>
+

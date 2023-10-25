@@ -1,14 +1,33 @@
-﻿<div class="container-fluid">
-    <div class="row">
+﻿@{
+    ViewData["Title"] = "Location";
+}
+@model List<Application.ViewModels.LocationViewModel>;
+
+<div class="locations">
+    @{
+        ViewData["classHeader"] = "locations-header";
+        ViewData["title"] = "Locations";
+        ViewData["placeholder"] = "Example. Earth";
+        ViewData["controller"] = "Location";
+    }
+    @Html.Partial("~/Views/Shared/PartialView/_Header.cshtml")
+
+    <div class="container">
+
         @foreach (var location in Model)
         {
-            <div class="card" style="width: 14rem;">
-                <div class="card-body">
+            <div class="location">
+                <div class="title"> 
                     <h4>@location.name</h4>
-                    <p>@location.type</p>
-                    <p>@location.dimension</p>
-                    <p>@location.url</p>
                 </div>
+                <ul class="info">
+                   <li>
+                       <b>Type: </b>@location.type
+                   </li>
+                    <li>
+                        <b>Dimension: </b>@location.dimension
+                    </li>
+                </ul>
             </div>
         }
     </div>

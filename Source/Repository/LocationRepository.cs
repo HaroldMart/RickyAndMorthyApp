@@ -12,36 +12,59 @@ namespace Repository.Data
 {
     public class LocationRepository
     {
-        public async Task<List<Location>> getAll()
+        private static readonly Random random = new();
+        private readonly HttpClient client = Connection.Instance._httpClient;
+
+        public async Task<int[]> getInfo()
         {
-            List<Location> locations = new List<Location>();
+            Uri url = new(client.BaseAddress, $"location");
+
+            HttpResponseMessage response = await client.GetAsync(url);
+
+            var data = await response.Content.ReadFromJsonAsync<Info>();
+
+            JObject json = JObject.Parse(data.info.ToString());
+            int count = int.Parse(json["count"].ToString());
+            int pages = int.Parse(json["pages"].ToString());
+            int[] list = new int[] { count, pages };
+
+            return list;
+        }
+
+        public async Task<List<Location>> getAll(int totalPages)
+        {
+            List<Location> locations = new();
 
             try
             {
-                HttpClient client = Connection.Instance._httpClient;
-
-                Uri url = new(client.BaseAddress, "location");
-
-                HttpResponseMessage response = await client.GetAsync(url);
-
-                var data = await response.Content.ReadFromJsonAsync<Info>();
-
-                if (data != null)
+                for (int i = 1; i <= 3; i++)
                 {
-                    foreach (var item in data.results)
+                    int page = random.Next(1, totalPages);
+                    string query = $"?page={page}";
+
+                    Uri url = new(client.BaseAddress, $"location{query}");
+
+                    HttpResponseMessage response = await client.GetAsync(url);
+
+                    var data = await response.Content.ReadFromJsonAsync<Info>();
+
+                    if (data != null)
                     {
-                        Location location = new Location();
-                        JObject json = JObject.Parse(item.ToString());
+                        foreach (var item in data.results)
+                        {
+                            Location location = new();
+                            JObject json = JObject.Parse(item.ToString());
 
-                        location.id = int.Parse(json["id"].ToString());
-                        location.name = json["name"].ToString();
-                        location.type = json["type"].ToString();
-                        location.dimension = json["dimension"].ToString();
-                        location.residents = JsonSerializer.Deserialize<string[]>(json["residents"].ToString());
-                        location.url = json["url"].ToString();
-                        location.created = json["created"].ToString();
+                            location.id = int.Parse(json["id"].ToString());
+                            location.name = json["name"].ToString();
+                            location.type = json["type"].ToString();
+                            location.dimension = json["dimension"].ToString();
+                            location.residents = JsonSerializer.Deserialize<string[]>(json["residents"].ToString());
+                            location.url = json["url"].ToString();
+                            location.created = json["created"].ToString();
 
-                        locations.Add(location);
+                            locations.Add(location);
+                        }
                     }
                 }
 
@@ -55,6 +78,7 @@ namespace Repository.Data
             return locations;
         }
 
+        #region "get"
         //public async Task<Location> get(string idLocation)
         //{
         //    try
@@ -81,55 +105,58 @@ namespace Repository.Data
 
         //    return new Location { };
         //}
+        #endregion
 
-        public async Task<List<Location>> getMultiple(string[] list)
-        {
-            List<Location> locations = new List<Location>();
+        #region "getMultiple"
+        //public async Task<List<Location>> getMultiple(string[] list)
+        //{
+        //    List<Location> locations = new List<Location>();
 
-            string multipleLocations = "";
-            foreach (string item in list)
-            {
-                multipleLocations += $"{item},";
-            }
+        //    string multipleLocations = "";
+        //    foreach (string item in list)
+        //    {
+        //        multipleLocations += $"{item},";
+        //    }
 
-            try
-            {
-                HttpClient client = Connection.Instance._httpClient;
+        //    try
+        //    {
+        //        HttpClient client = Connection.Instance._httpClient;
 
-                Uri url = new(client.BaseAddress, $"location/{multipleLocations}");
+        //        Uri url = new(client.BaseAddress, $"location/{multipleLocations}");
 
-                HttpResponseMessage response = await client.GetAsync(url);
+        //        HttpResponseMessage response = await client.GetAsync(url);
 
-                var data = await response.Content.ReadFromJsonAsync<List<object>>();
+        //        var data = await response.Content.ReadFromJsonAsync<List<object>>();
 
-                if (data != null)
-                {
-                    foreach (var item in data)
-                    {
-                        Location location = new Location();
-                        JObject json = JObject.Parse(item.ToString());
+        //        if (data != null)
+        //        {
+        //            foreach (var item in data)
+        //            {
+        //                Location location = new Location();
+        //                JObject json = JObject.Parse(item.ToString());
 
-                        location.id = int.Parse(json["id"].ToString());
-                        location.name = json["name"].ToString();
-                        location.type = json["type"].ToString();
-                        location.dimension = json["dimension"].ToString();
-                        location.residents = JsonSerializer.Deserialize<string[]>(json["residents"].ToString());
-                        location.url = json["url"].ToString();
-                        location.created = json["created"].ToString();
+        //                location.id = int.Parse(json["id"].ToString());
+        //                location.name = json["name"].ToString();
+        //                location.type = json["type"].ToString();
+        //                location.dimension = json["dimension"].ToString();
+        //                location.residents = JsonSerializer.Deserialize<string[]>(json["residents"].ToString());
+        //                location.url = json["url"].ToString();
+        //                location.created = json["created"].ToString();
 
-                        locations.Add(location);
-                    }
-                }
+        //                locations.Add(location);
+        //            }
+        //        }
 
-                return locations;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+        //        return locations;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
 
-            return locations;
-        }
+        //    return locations;
+        //}
+        #endregion
 
         public async Task<List<Location>> filter(string query)
         {
@@ -137,8 +164,6 @@ namespace Repository.Data
 
             try
             {
-                HttpClient client = Connection.Instance._httpClient;
-
                 Uri url = new(client.BaseAddress, $"location/?{query}");
 
                 HttpResponseMessage response = await client.GetAsync(url);

@@ -1,8 +1,45 @@
 ﻿@{
     ViewData["Title"] = "Home";
 }
+@model List<Application.ViewModels.CharacterViewModel>
 
 <div class="home">
-      <p>Home page</p>
+    <div class="home-header">
+        <h1>Welcome to the Ricky and Morty website</h1>
+    </div>
      
+    <div class="container">
+        <div class="content">
+            <div class="image">
+                <img src="~/assets/images/ricky.png" />
+            </div>
+            <div class="info-api">
+                <ul class="info-api-character">
+                    <li class="info-title">
+                        <h3>Characters</h3>
+                    </li>
+                    <li>Pages: @ViewBag.pagesCharacter</li>
+                    <li>Count: @ViewBag.countCharacter</li>
+                </ul>
+                <ul class="info-api-location">
+                    <li class="info-title">
+                        <h3>Locations</h3>
+                    </li>
+                    <li>Pages: @ViewBag.pagesLocation</li>
+                    <li>Count: @ViewBag.countLocation</li>
+                </ul>
+                <ul class="info-api-episode">
+                    <li class="info-title">
+                        <h3>Episodes</h3>
+                    </li>
+                    <li>Pages: @ViewBag.pagesEpisoder</li>
+                    <li>Count: @ViewBag.countEpisode</li>
+                </ul>
+            </div>
+        </div>
+      
+        <div class="list">
+            @Html.Partial("~/Views/Shared/PartialView/_ListCharacters.cshtml", Model)
+        </div>
+    </div>
 </div>

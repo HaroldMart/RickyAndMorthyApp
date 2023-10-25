@@ -1,0 +1,7 @@
+﻿<div class="@ViewData["classHeader"]">
+    <h2>@ViewData["title"]</h2>
+    <form class="form-search" method="post">
+        <input type="search" class="search-input" name="search" placeholder="@ViewData["placeholder"]" asp-controller="@ViewData["controller"]" asp-action="Index" />
+        <input type="submit" class="filter-button" value="Filter" />
+    </form>
+</div>

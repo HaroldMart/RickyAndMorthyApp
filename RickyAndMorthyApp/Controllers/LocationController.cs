@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Services;
+using Application.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Repository.Data;
 using Repository.Models;
 
@@ -6,12 +8,23 @@ namespace RickyAndMorthyApp.Controllers
 {
     public class LocationController : Controller
     {
-        public async Task<IActionResult> Index()
+        List<LocationViewModel>? locationList;
+        public async Task<IActionResult> Index(string search)
         {
-            LocationRepository location = new LocationRepository();
-            List<Location> locations = await location.getAll();
+            LocationServices location = new();
+            locationList = new();
 
-            return View(locations);
+            if (!string.IsNullOrEmpty(search))
+            {
+                locationList = await location.filterLocations($"name={search}");
+            }
+            else
+            {
+                await location.getInfo();
+                locationList = await location.getAllLocations(location.pages);
+            }
+
+            return View(locationList);
         }
     }
 }
