@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RickyAndMortyApp", "RickyAndMortyApp\RickyAndMortyApp.csproj", "{9DCE53D5-ADE7-4549-B59E-F86E2C5FC8E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Source\Application.csproj", "{6B7DA568-2FD0-4A51-B42D-B4518D45D64E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{6B7DA568-2FD0-4A51-B42D-B4518D45D64E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

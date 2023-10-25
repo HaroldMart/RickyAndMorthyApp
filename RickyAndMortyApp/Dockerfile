@@ -8,7 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["RickyAndMortyApp/RickyAndMortyApp.csproj", "RickyAndMortyApp/"]
-COPY ["Source/Application.csproj", "Source/"]
+COPY ["Application/Application.csproj", "Application/"]
 RUN dotnet restore "RickyAndMortyApp/RickyAndMortyApp.csproj"
 COPY . .
 WORKDIR "/src/RickyAndMortyApp"
