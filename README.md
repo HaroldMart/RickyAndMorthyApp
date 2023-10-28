@@ -10,6 +10,7 @@ This website has three pages, you can see characters, locations and episodes and
 - Sass
 - ASP.NET
 - Javascript
+- Docker
 
 You can access the page using this link: https://ricky-and-morty-website.onrender.com/
 
