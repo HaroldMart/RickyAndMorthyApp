@@ -12,8 +12,6 @@ This website has three pages, you can see characters, locations and episodes and
 - Javascript
 - Docker
 
-You can access the page using this link: https://ricky-and-morty-website.onrender.com/
-
 Here are some screenshots from the website.
 
 ##### Home
